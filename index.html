@@ -87,7 +87,7 @@
   <input type="text" placeholder="Option D"
     style="width:100%; padding:12px; margin:8px 0;">
 
-  <button type="button">Save Question</button>
+ <button type="button" onclick="saveQuestion()">Save Question</button>
 </section>
 
   <main>
@@ -200,6 +200,29 @@
           `You scored ${points} out of ${questions.length}.`;
       }
     }
+    function saveQuestion() {
+  const section = document.querySelector("section");
+  const title = section.querySelector('input[placeholder="Enter exam title"]').value;
+  const question = section.querySelector("textarea").value;
+  const options = Array.from(section.querySelectorAll('input[placeholder^="Option"]'))
+    .map(input => input.value);
+
+  if (!title || !question || options.some(option => !option)) {
+    alert("Please fill in the exam title, question and all four options.");
+    return;
+  }
+
+  const questions = JSON.parse(localStorage.getItem("examQuestions") || "[]");
+
+  questions.push({ title, question, options });
+
+  localStorage.setItem("examQuestions", JSON.stringify(questions));
+
+  alert("Question saved successfully!");
+
+  section.querySelector("textarea").value = "";
+  section.querySelectorAll('input[placeholder^="Option"]').forEach(input => input.value = "");
+}
   </script>
 </body>
 </html>
