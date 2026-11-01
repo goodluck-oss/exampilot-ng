@@ -279,6 +279,36 @@ card.appendChild(deleteButton);
     const editButton = document.createElement("button");
 editButton.textContent = "Edit";
 editButton.onclick = function() {
+  const newQuestion = prompt("Edit question:", item.question);
+  if (newQuestion === null || newQuestion.trim() === "") return;
+
+  const newA = prompt("Edit Option A:", item.options[0]);
+  if (newA === null) return;
+
+  const newB = prompt("Edit Option B:", item.options[1]);
+  if (newB === null) return;
+
+  const newC = prompt("Edit Option C:", item.options[2]);
+  if (newC === null) return;
+
+  const newD = prompt("Edit Option D:", item.options[3]);
+  if (newD === null) return;
+
+  const newAnswer = prompt("Correct answer? Enter A, B, C or D:", item.correctAnswer);
+  if (newAnswer === null) return;
+
+  if (!["A", "B", "C", "D"].includes(newAnswer.toUpperCase())) {
+    alert("Please enter A, B, C or D.");
+    return;
+  }
+
+  questions[index].question = newQuestion;
+  questions[index].options = [newA, newB, newC, newD];
+  questions[index].correctAnswer = newAnswer.toUpperCase();
+
+  localStorage.setItem("examQuestions", JSON.stringify(questions));
+  renderSavedQuestions();
+};
   const newQuestion = prompt("Edit your question:", item.question);
 
   if (newQuestion !== null && newQuestion.trim() !== "") {
