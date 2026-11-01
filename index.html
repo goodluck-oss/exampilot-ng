@@ -97,6 +97,10 @@
     style="width:100%; padding:12px; margin:8px 0;">
 
  <button type="button" onclick="saveQuestion()">Save Question</button>
+ <h3>My Saved Questions</h3>
+<div id="savedQuestions">
+  <p>No questions saved yet.</p>
+</div>   
 </section>
 
   <main>
@@ -228,12 +232,43 @@
 questions.push({ title, question, options, correctAnswer });
 
   localStorage.setItem("examQuestions", JSON.stringify(questions));
+      renderSavedQuestions();
 
   alert("Question saved successfully!");
 
   section.querySelector("textarea").value = "";
   section.querySelectorAll('input[placeholder^="Option"]').forEach(input => input.value = "");
 }
+ function renderSavedQuestions() {
+  const container = document.getElementById("savedQuestions");
+  const questions = JSON.parse(localStorage.getItem("examQuestions") || "[]");
+
+  container.innerHTML = "";
+
+  if (questions.length === 0) {
+    container.textContent = "No questions saved yet.";
+    return;
+  }
+
+  questions.forEach((item, index) => {
+    const card = document.createElement("div");
+    const heading = document.createElement("h4");
+    const question = document.createElement("p");
+    const answer = document.createElement("p");
+
+    heading.textContent = "Question " + (index + 1) + ": " + item.title;
+    question.textContent = item.question;
+    answer.textContent = "Correct answer: Option " + item.correctAnswer;
+
+    card.appendChild(heading);
+    card.appendChild(question);
+    card.appendChild(answer);
+
+    container.appendChild(card);
+  });
+}
+
+renderSavedQuestions();
   </script>
 </body>
 </html>
