@@ -62,7 +62,16 @@
     <h1>ExamPilot NG</h1>
     <p>Your journey to better exam results starts here.</p>
   </header>
+<section style="padding: 30px; max-width: 700px; margin: auto; background: #f4f7ff;">
+  <h2>Student Dashboard</h2>
+  <p>Welcome to ExamPilot NG. Enter your name to continue.</p>
 
+  <input type="text" id="studentName" placeholder="Enter your full name">
+
+  <button onclick="studentLogin()">Continue</button>
+
+  <p id="studentMessage"></p>
+</section>
   <section style="padding: 30px; max-width: 700px; margin: auto;">
   <h2>Teacher Dashboard</h2>
   <p>Create your own examination questions for students.</p>
@@ -317,6 +326,18 @@ card.appendChild(editButton);
 }
 
 renderSavedQuestions();
+    function studentLogin() {
+  const name = document.getElementById("studentName").value.trim();
+  const message = document.getElementById("studentMessage");
+
+  if (name === "") {
+    message.textContent = "Please enter your name.";
+    return;
+  }
+
+  localStorage.setItem("studentName", name);
+  message.textContent = "Welcome, " + name + "! You are logged in.";
+}
   </script>
 </body>
 </html>
