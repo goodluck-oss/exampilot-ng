@@ -271,6 +271,18 @@ deleteButton.onclick = function() {
   renderSavedQuestions();
 };
 card.appendChild(deleteButton);
+    const editButton = document.createElement("button");
+editButton.textContent = "Edit";
+editButton.onclick = function() {
+  const newQuestion = prompt("Edit your question:", item.question);
+
+  if (newQuestion !== null && newQuestion.trim() !== "") {
+    questions[index].question = newQuestion;
+    localStorage.setItem("examQuestions", JSON.stringify(questions));
+    renderSavedQuestions();
+  }
+};
+card.appendChild(editButton);
 
     container.appendChild(card);
   });
