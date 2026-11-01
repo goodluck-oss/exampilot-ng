@@ -71,6 +71,10 @@
   <button onclick="studentLogin()">Continue</button>
 
   <p id="studentMessage"></p>
+  <div id="availableExams">
+  <h3>Available Exams</h3>
+  <p>Log in to see your exams.</p>
+</div>
 </section>
   <section style="padding: 30px; max-width: 700px; margin: auto;">
   <h2>Teacher Dashboard</h2>
@@ -326,9 +330,10 @@ card.appendChild(editButton);
 }
 
 renderSavedQuestions();
-    function studentLogin() {
+   function studentLogin() {
   const name = document.getElementById("studentName").value.trim();
   const message = document.getElementById("studentMessage");
+  const examArea = document.getElementById("availableExams");
 
   if (name === "") {
     message.textContent = "Please enter your name.";
@@ -337,6 +342,22 @@ renderSavedQuestions();
 
   localStorage.setItem("studentName", name);
   message.textContent = "Welcome, " + name + "! You are logged in.";
+
+  const questions = JSON.parse(localStorage.getItem("examQuestions") || "[]");
+  const examTitles = [...new Set(questions.map(item => item.title))];
+
+  examArea.innerHTML = "<h3>Available Exams</h3>";
+
+  if (examTitles.length === 0) {
+    examArea.innerHTML += "<p>No exams available yet.</p>";
+    return;
+  }
+
+  examTitles.forEach(title => {
+    const exam = document.createElement("p");
+    exam.textContent = title;
+    examArea.appendChild(exam);
+  });
 }
   </script>
 </body>
