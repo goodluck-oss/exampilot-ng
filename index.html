@@ -263,6 +263,14 @@ questions.push({ title, question, options, correctAnswer });
     card.appendChild(heading);
     card.appendChild(question);
     card.appendChild(answer);
+    const deleteButton = document.createElement("button");
+deleteButton.textContent = "Delete";
+deleteButton.onclick = function() {
+  questions.splice(index, 1);
+  localStorage.setItem("examQuestions", JSON.stringify(questions));
+  renderSavedQuestions();
+};
+card.appendChild(deleteButton);
 
     container.appendChild(card);
   });
