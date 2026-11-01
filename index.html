@@ -85,6 +85,15 @@
     style="width:100%; padding:12px; margin:8px 0;">
 
   <input type="text" placeholder="Option D"
+    <label for="correctAnswer">Select the Correct Answer:</label>
+
+<select id="correctAnswer" style="width:100%; padding:12px; margin:8px 0;">
+  <option value="">Choose correct answer</option>
+  <option value="A">Option A</option>
+  <option value="B">Option B</option>
+  <option value="C">Option C</option>
+  <option value="D">Option D</option>
+</select>
     style="width:100%; padding:12px; margin:8px 0;">
 
  <button type="button" onclick="saveQuestion()">Save Question</button>
@@ -207,14 +216,16 @@
   const options = Array.from(section.querySelectorAll('input[placeholder^="Option"]'))
     .map(input => input.value);
 
-  if (!title || !question || options.some(option => !option)) {
+  if (!title || !question || options.some(option => !option) || !section.querySelector("#correctAnswer").value) {
     alert("Please fill in the exam title, question and all four options.");
     return;
   }
 
   const questions = JSON.parse(localStorage.getItem("examQuestions") || "[]");
 
-  questions.push({ title, question, options });
+  const correctAnswer = section.querySelector("#correctAnswer").value;
+
+questions.push({ title, question, options, correctAnswer });
 
   localStorage.setItem("examQuestions", JSON.stringify(questions));
 
