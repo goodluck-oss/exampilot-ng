@@ -229,7 +229,12 @@
 
   const correctAnswer = section.querySelector("#correctAnswer").value;
 
-questions.push({ title, question, options, correctAnswer });
+questions.push({
+  title,
+  question,
+  options,
+  correctAnswer
+});
 
   localStorage.setItem("examQuestions", JSON.stringify(questions));
       renderSavedQuestions();
