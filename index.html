@@ -76,7 +76,7 @@
   <p>Log in to see your exams.</p>
 </div>
 </section>
-  <section style="padding: 30px; max-width: 700px; margin: auto;">
+  <section id="teacherDashboard" style="padding: 30px; max-width: 700px; margin: auto;">
   <h2>Teacher Dashboard</h2>
   <p>Create your own examination questions for students.</p>
 
@@ -227,7 +227,7 @@
       }
     }
     function saveQuestion() {
-  const section = document.querySelector("section");
+ const section = document.getElementById("teacherDashboard");
   const title = section.querySelector('input[placeholder="Enter exam title"]').value;
   const question = section.querySelector("textarea").value;
   const options = Array.from(section.querySelectorAll('input[placeholder^="Option"]'))
