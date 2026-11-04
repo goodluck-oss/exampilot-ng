@@ -491,7 +491,7 @@ examArea.appendChild(submitButton);
     return;
   }
 
-  results.forEach(item => {
+  results.forEach(item, index) => {
     const result = document.createElement("p");
 
     result.textContent =
@@ -522,7 +522,19 @@ detailsButton.onclick = function() {
   alert(details);
 };
 
-result.appendChild(detailsButton);  
+result.appendChild(detailsButton);
+    const deleteButton = document.createElement("button");
+deleteButton.textContent = "Delete Result";
+
+deleteButton.onclick = function() {
+  if (confirm("Are you sure you want to delete this result?")) {
+    results.splice(results.indexOf(item), 1);
+    localStorage.setItem("examResults", JSON.stringify(results));
+    renderTeacherResults();
+  }
+};
+
+result.appendChild(deleteButton);
     container.appendChild(result);
   });
 }
