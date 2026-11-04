@@ -98,6 +98,7 @@
     style="width:100%; padding:12px; margin:8px 0;">
 
   <input type="text" placeholder="Option D"
+style="width:100%; padding:12px; margin:8px 0;">
     <label for="correctAnswer">Select the Correct Answer:</label>
 
 <select id="correctAnswer" style="width:100%; padding:12px; margin:8px 0;">
@@ -112,12 +113,13 @@
  <button type="button" onclick="saveQuestion()">Save Question</button>
  <h3>My Saved Questions</h3>
 <div id="savedQuestions">
-  <h3>Student Results</h3>
+  <p>No questions saved yet.</p>
+</div>
+
+<h3>Student Results</h3>
 <div id="teacherResults">
   <p>No student results yet.</p>
 </div>
-  <p>No questions saved yet.</p>
-</div>   
 </section>
 
   <main>
@@ -334,7 +336,6 @@ card.appendChild(editButton);
 }
 
 renderSavedQuestions();
-renderTeacherResults();
     function studentLogin() {
   const name = document.getElementById("studentName").value.trim();
   const message = document.getElementById("studentMessage");
