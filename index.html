@@ -411,17 +411,29 @@ exam.onclick = function() {
       const submitButton = document.createElement("button");
 submitButton.textContent = "Submit Exam";
 submitButton.onclick = function() {
-  let score = 0;
+ let score = 0;
+const studentAnswers = [];
 
-  examQuestions.forEach((item, index) => {
-    const selected = document.querySelector(
-      'input[name="question' + index + '"]:checked'
-    );
+examQuestions.forEach((item, index) => {
+  const selected = document.querySelector(
+    'input[name="question' + index + '"]:checked'
+  );
 
-    if (selected && selected.value === item.correctAnswer) {
-      score++;
-    }
+  const studentAnswer = selected ? selected.value : "Not answered";
+
+  const isCorrect = studentAnswer === item.correctAnswer;
+
+  if (isCorrect) {
+    score++;
+  }
+
+  studentAnswers.push({
+    question: item.question,
+    studentAnswer: studentAnswer,
+    correctAnswer: item.correctAnswer,
+    isCorrect: isCorrect
   });
+});
 
   
    const results = JSON.parse(localStorage.getItem("examResults") || "[]");
@@ -431,6 +443,7 @@ results.push({
   exam: title,
   score: score,
   total: examQuestions.length,
+  answers: studentAnswers,
   date: new Date().toLocaleString()
 });
 
