@@ -84,7 +84,7 @@
 
   <input type="text" placeholder="Enter exam title"
     style="width:100%; padding:12px; margin:8px 0;">
-
+<input type="number" id="examTime" placeholder="Exam time in minutes" min="1">
   <textarea placeholder="Type your question here"
     style="width:100%; padding:12px; margin:8px 0;"></textarea>
 
@@ -236,12 +236,13 @@ style="width:100%; padding:12px; margin:8px 0;">
     function saveQuestion() {
  const section = document.getElementById("teacherDashboard");
   const title = section.querySelector('input[placeholder="Enter exam title"]').value;
+      const examTime = section.querySelector("#examTime").value;
   const question = section.querySelector("textarea").value;
   const options = Array.from(section.querySelectorAll('input[placeholder^="Option"]'))
     .map(input => input.value);
 
-  if (!title || !question || options.some(option => !option) || !section.querySelector("#correctAnswer").value) {
-    alert("Please fill in the exam title, question and all four options.");
+  if (!title || !examTime || Number(examTime) < 1 || !question || options.some(option => !option) || !section.querySelector("#correctAnswer").value) {
+    alert("Please fill in the exam title, time limit, question and all four options.");
     return;
   }
 
@@ -249,12 +250,7 @@ style="width:100%; padding:12px; margin:8px 0;">
 
   const correctAnswer = section.querySelector("#correctAnswer").value;
 
-questions.push({
-  title,
-  question,
-  options,
-  correctAnswer
-});
+questions.push({ title, examTime, question, options, correctAnswer });
 
   localStorage.setItem("examQuestions", JSON.stringify(questions));
       renderSavedQuestions();
@@ -383,8 +379,15 @@ exam.onclick = function() {
 
   const examQuestions = questions.filter(item => item.title === title);
 
-  examArea.innerHTML = "<h3>" + title + "</h3>";
+  examArea.innerHTML = "<h3>" + title + "</h3>"; 
+      
+const examTime = Number(examQuestions[0].examTime);
+      let timeLeft = examTime * 60;
 
+const timerDisplay = document.createElement("h3");
+timerDisplay.textContent = "Time Left: " + timeLeft + " seconds";
+examArea.appendChild(timerDisplay);
+      
   examQuestions.forEach((item, index) => {
     const questionDiv = document.createElement("div");
 
@@ -411,7 +414,23 @@ exam.onclick = function() {
 
       const submitButton = document.createElement("button");
 submitButton.textContent = "Submit Exam";
+      const timer = setInterval(function() {
+  timeLeft--;
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+
+  timerDisplay.textContent =
+    "Time Left: " + minutes + ":" + String(seconds).padStart(2, "0");
+
+  if (timeLeft <= 0) {
+    clearInterval(timer);
+    alert("Time is up! Your exam will be submitted.");
+    submitButton.click();
+  }
+}, 1000);
 submitButton.onclick = function() {
+  clearInterval(timer);
  let score = 0;
 const studentAnswers = [];
 
