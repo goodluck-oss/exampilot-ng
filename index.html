@@ -347,6 +347,10 @@ renderSavedQuestions();
   const examTitles = [...new Set(questions.map(item => item.title))];
 
   examArea.innerHTML = "<h3>Available Exams</h3>";
+     const resultsButton = document.createElement("button");
+resultsButton.textContent = "My Results";
+resultsButton.onclick = showResults;
+examArea.appendChild(resultsButton);
 
   if (examTitles.length === 0) {
     examArea.innerHTML += "<p>No exams available yet.</p>";
@@ -415,10 +419,47 @@ submitButton.onclick = function() {
 
   examArea.innerHTML =
     "<h3>Exam Completed!</h3>" +
-    "<p>Your Score: " + score + " out of " + examQuestions.length + "</p>";
+   const results = JSON.parse(localStorage.getItem("examResults") || "[]");
+
+results.push({
+  student: localStorage.getItem("studentName"),
+  exam: title,
+  score: score,
+  total: examQuestions.length,
+  date: new Date().toLocaleString()
+});
+
+localStorage.setItem("examResults", JSON.stringify(results));
+
+examArea.innerHTML =
+  "<h3>Exam Completed!</h3>" +
+  "<p>Your Score: " + score + " out of " + examQuestions.length + "</p>";
 };
 
 examArea.appendChild(submitButton);
+}
+
+    function showResults() {
+  const examArea = document.getElementById("availableExams");
+  const results = JSON.parse(localStorage.getItem("examResults") || "[]");
+  const student = localStorage.getItem("studentName");
+
+  const myResults = results.filter(item => item.student === student);
+
+  examArea.innerHTML = "<h3>My Results History</h3>";
+
+  if (myResults.length === 0) {
+    examArea.innerHTML += "<p>No results yet.</p>";
+    return;
+  }
+
+  myResults.forEach(item => {
+    const result = document.createElement("p");
+    result.textContent =
+      item.exam + " - " + item.score + "/" + item.total + " - " + item.date;
+
+    examArea.appendChild(result);
+  });
 }
   </script>
 </body>
