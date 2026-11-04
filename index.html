@@ -112,6 +112,10 @@
  <button type="button" onclick="saveQuestion()">Save Question</button>
  <h3>My Saved Questions</h3>
 <div id="savedQuestions">
+  <h3>Student Results</h3>
+<div id="teacherResults">
+  <p>No student results yet.</p>
+</div>
   <p>No questions saved yet.</p>
 </div>   
 </section>
@@ -330,7 +334,8 @@ card.appendChild(editButton);
 }
 
 renderSavedQuestions();
-   function studentLogin() {
+renderTeacherResults();
+    function studentLogin() {
   const name = document.getElementById("studentName").value.trim();
   const message = document.getElementById("studentMessage");
   const examArea = document.getElementById("availableExams");
@@ -460,6 +465,32 @@ examArea.appendChild(submitButton);
     examArea.appendChild(result);
   });
 }
+
+    function renderTeacherResults() {
+  const container = document.getElementById("teacherResults");
+  const results = JSON.parse(localStorage.getItem("examResults") || "[]");
+
+  container.innerHTML = "";
+
+  if (results.length === 0) {
+    container.textContent = "No student results yet.";
+    return;
+  }
+
+  results.forEach(item => {
+    const result = document.createElement("p");
+
+    result.textContent =
+      "Student: " + item.student +
+      " | Exam: " + item.exam +
+      " | Score: " + item.score + "/" + item.total +
+      " | Date: " + item.date;
+
+    container.appendChild(result);
+  });
+}
+
+renderTeacherResults();
   </script>
 </body>
 </html>
