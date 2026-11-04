@@ -397,6 +397,28 @@ exam.onclick = function() {
 
     examArea.appendChild(questionDiv);
   });
+
+      const submitButton = document.createElement("button");
+submitButton.textContent = "Submit Exam";
+submitButton.onclick = function() {
+  let score = 0;
+
+  examQuestions.forEach((item, index) => {
+    const selected = document.querySelector(
+      'input[name="question' + index + '"]:checked'
+    );
+
+    if (selected && selected.value === item.correctAnswer) {
+      score++;
+    }
+  });
+
+  examArea.innerHTML =
+    "<h3>Exam Completed!</h3>" +
+    "<p>Your Score: " + score + " out of " + examQuestions.length + "</p>";
+};
+
+examArea.appendChild(submitButton);
 }
   </script>
 </body>
