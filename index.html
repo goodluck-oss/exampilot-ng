@@ -504,10 +504,22 @@ examArea.appendChild(submitButton);
 detailsButton.textContent = "View Details";
 
 detailsButton.onclick = function() {
-  alert("Student: " + item.student +
-        "\nExam: " + item.exam +
-        "\nScore: " + item.score + "/" + item.total +
-        "\nDate: " + item.date);
+  let details = "Student: " + item.student +
+                "\nExam: " + item.exam +
+                "\nScore: " + item.score + "/" + item.total +
+                "\nDate: " + item.date + "\n\n";
+
+  if (item.answers) {
+    item.answers.forEach((answer, index) => {
+      details += "Question " + (index + 1) + ": " + answer.question +
+                 "\nYour Answer: " + answer.studentAnswer +
+                 "\nCorrect Answer: " + answer.correctAnswer +
+                 "\nStatus: " + (answer.isCorrect ? "Correct" : "Wrong") +
+                 "\n\n";
+    });
+  }
+
+  alert(details);
 };
 
 result.appendChild(detailsButton);  
