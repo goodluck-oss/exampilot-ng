@@ -487,6 +487,17 @@ examArea.appendChild(submitButton);
       " | Score: " + item.score + "/" + item.total +
       " | Date: " + item.date;
 
+  const detailsButton = document.createElement("button");
+detailsButton.textContent = "View Details";
+
+detailsButton.onclick = function() {
+  alert("Student: " + item.student +
+        "\nExam: " + item.exam +
+        "\nScore: " + item.score + "/" + item.total +
+        "\nDate: " + item.date);
+};
+
+result.appendChild(detailsButton);  
     container.appendChild(result);
   });
 }
