@@ -356,7 +356,46 @@ renderSavedQuestions();
   examTitles.forEach(title => {
     const exam = document.createElement("p");
     exam.textContent = title;
+exam.style.cursor = "pointer";
+exam.style.color = "blue";
+
+exam.onclick = function() {
+  openExam(title);
+};
     examArea.appendChild(exam);
+  });   
+}
+
+    function openExam(title) {
+  const examArea = document.getElementById("availableExams");
+  const questions = JSON.parse(localStorage.getItem("examQuestions") || "[]");
+
+  const examQuestions = questions.filter(item => item.title === title);
+
+  examArea.innerHTML = "<h3>" + title + "</h3>";
+
+  examQuestions.forEach((item, index) => {
+    const questionDiv = document.createElement("div");
+
+    const heading = document.createElement("p");
+    heading.textContent = (index + 1) + ". " + item.question;
+    questionDiv.appendChild(heading);
+
+    item.options.forEach((option, optionIndex) => {
+      const label = document.createElement("label");
+      const radio = document.createElement("input");
+
+      radio.type = "radio";
+      radio.name = "question" + index;
+      radio.value = String.fromCharCode(65 + optionIndex);
+
+      label.appendChild(radio);
+      label.appendChild(document.createTextNode(option));
+      questionDiv.appendChild(label);
+      questionDiv.appendChild(document.createElement("br"));
+    });
+
+    examArea.appendChild(questionDiv);
   });
 }
   </script>
